@@ -6,13 +6,13 @@ AC_PREREQ(2.61)
 dnl --------------------------------
 dnl Specify INIT and CONFIG options
 dnl --------------------------------
-AC_INIT(efscape, 0.0.3)
+AC_INIT(efscape-gis, 1.0.0)
 AC_CONFIG_AUX_DIR(config)
 AM_INIT_AUTOMAKE
 #AM_INIT_AUTOMAKE([subdir-objects])
 LT_INIT
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_SRCDIR([src/efscape/efscape.ice])
+AC_CONFIG_SRCDIR([src/efscape/gis/GeoDataSource.hpp])
 #AC_CONFIG_HEADER([config.h])
 
 dnl -----------------------------------------------
@@ -20,8 +20,8 @@ dnl Adds configure options
 dnl -----------------------------------------------
 
 # Checks for programs.
-AC_PROG_CC([mpicc mpixlc])
-AC_PROG_CXX([mpic++ mpixlcxx])
+AC_PROG_CC
+AC_PROG_CXX
 AC_LIBTOOL_DLOPEN
 AM_PROG_LIBTOOL
 AM_SANITY_CHECK
@@ -31,24 +31,15 @@ dnl Checks for libraries
 dnl -----------------------------------------------
 
 PKG_CHECK_MODULES(DEPS,
-	adevs >= 2.0
-	liblog4cxx > 0.1
-	xerces-c >= 3.0
-	zeroc-ice >= 3.5
-	repast >= 2.0)
-#	gdal >= 1.10
+	liblog4cxx > 0.1)
 
-
-BOOST_REQUIRE([1.39])
+BOOST_REQUIRE([1.60])
 
 # Checks for libraries.
 AC_CHECK_LIB([dl], [dlopen])
-AC_CHECK_LIB([curl], [curl_version])
-AC_CHECK_LIB([mpi], [MPI_Send])
 AC_CHECK_LIB([netcdf], [nc_open])
 
 BOOST_SERIALIZATION()
-BOOST_MPI()
 BOOST_FILESYSTEM()
 BOOST_SYSTEM()
 BOOST_PROGRAM_OPTIONS()
@@ -134,15 +125,9 @@ AC_HEADER_STDC
 AC_CHECK_FUNCS([floor rint sqrt])
 
 AC_CONFIG_FILES([Makefile
-		 pkgconfig/efscape.pc
+		 pkgconfig/efscape-gis.pc
 		 src/Makefile
 		 src/efscape/Makefile
-		 src/efscape/utils/Makefile
-		 src/efscape/impl/Makefile
 		 src/efscape/gis/Makefile
-		 src/efscape/gis/TestCode/Makefile
-		 src/efscape/server/Makefile
-		 src/ogis/Makefile
-		 src/ogis/impl/Makefile
-		 src/simplesim/Makefile])
+		 src/efscape/gis/TestCode/Makefile])
 AC_OUTPUT

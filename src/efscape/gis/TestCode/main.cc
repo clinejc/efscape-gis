@@ -14,9 +14,6 @@
 #include <vector>
 #include <sstream>
 
-// from efscape/utils
-//#include <string_utils.hpp>
-
 #include <TestCode.hh>
 
 /**

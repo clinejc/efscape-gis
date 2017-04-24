@@ -9,6 +9,6 @@ SUBDIRS= src
 DIST_SUBDIRS = src
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = pkgconfig/efscape.pc
+pkgconfig_DATA = pkgconfig/efscape-gis.pc
 
 EXTRA_DIST=autogen.sh
