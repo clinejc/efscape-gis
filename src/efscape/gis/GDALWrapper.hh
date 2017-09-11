@@ -13,7 +13,6 @@
 #include <gdal_priv.h>		// Geospatial Data Abstraction Library
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/convenience.hpp>
-#include <boost/shared_ptr.hpp>
 #include <string>
 
 namespace efscape {
@@ -29,8 +28,6 @@ namespace efscape {
      */
     class GDALWrapper : public GeoDataSource
     {
-       friend class boost::serialization::access;
-
     public:
       //
       // constructor/destructor
@@ -70,7 +67,7 @@ namespace efscape {
       Geogrid* create_geogrid(const char* acp_name) const;
 
       /** @returns handle to GDALDataset */
-      const boost::shared_ptr<GDALDataset>& dataset() { return mCp_dataset; }
+      const std::shared_ptr<GDALDataset>& dataset() { return mCp_dataset; }
 
       // read
       int read(Geogrid* aCp_grid, long al_index) const
@@ -83,25 +80,16 @@ namespace efscape {
     protected:
 
       /** handle to GDALDataset */
-      boost::shared_ptr<GDALDataset> mCp_dataset;
+      std::shared_ptr<GDALDataset> mCp_dataset;
 
       /** name */
       std::string mC_name;
 
-    private:
-
-      template<class Archive>
-      void serialize(Archive & ar, const unsigned int version)
-      {
-	// parent class
-	ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(GeoDataSource);
-      }
-
     };				// class GDALWrapper
 
     // typedef
-    typedef boost::shared_ptr<GDALWrapper> GeoRasterGdalPtr; // deprecated
-    typedef boost::shared_ptr<GDALWrapper> GDALWrapperPtr;
+    typedef std::shared_ptr<GDALWrapper> GeoRasterGdalPtr; // deprecated
+    typedef std::shared_ptr<GDALWrapper> GDALWrapperPtr;
 
   } // namespace gis
 

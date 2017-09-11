@@ -60,7 +60,7 @@ namespace gistest {
     //------------------
     efscape::gis::GDALWrapper lC_GDALWrapper(mC_filename.c_str(),GA_ReadOnly);
 
-    if (lC_GDALWrapper.dataset() == 0) {
+    if (lC_GDALWrapper.dataset() == nullptr) {
       mC_ErrorMsg << "Unable to open raster file <" << mC_filename.c_str()
 		  << ">\n";
 
@@ -105,7 +105,7 @@ namespace gistest {
       lC_resolution = (*lC_GridIter)->resolution();
 
       std::cout << "Origin = ("
-		<< lC_envelope.getMinX() << ", " 
+		<< lC_envelope.getMinX() << ", "
 		<< lC_envelope.getMaxY() << ")\n";
       std::cout << "Pixel Size = ("
 		<< lC_resolution.x << ", "
@@ -131,7 +131,7 @@ namespace gistest {
     lC_resolution = lC_grid.resolution();
 
     std::cout << "Origin = ("
-	      << lC_envelope.getMinX() << ", " 
+	      << lC_envelope.getMinX() << ", "
 	      << lC_envelope.getMaxY() << ")\n";
     std::cout << "Pixel Size = ("
 	      << lC_resolution.x << ", "
@@ -247,11 +247,11 @@ namespace gistest {
     // set geotransform
     double ld1_transform[6];
     ld1_transform[0] = 535255.39031473; // upper left x
-    ld1_transform[1] = 500.0;		// w-e pixel resolution 
+    ld1_transform[1] = 500.0;		// w-e pixel resolution
     ld1_transform[2] = 0;
     ld1_transform[3] = 2791354.27830428; // upper left y
     ld1_transform[4] = 0;
-    ld1_transform[5] = -500.0;		// n-s pixel resolution 
+    ld1_transform[5] = -500.0;		// n-s pixel resolution
 
     // set projection
     OGRSpatialReference lC_oSRS;
@@ -290,7 +290,7 @@ namespace gistest {
 		      GDT_Byte, 0, 0 );
 
     poNewDataset->FlushCache();
- 
+
     CSLDestroy(papszOptions);
 
     // print list of files associated with this dataset
@@ -415,9 +415,9 @@ namespace gistest {
       lC_NcGrid.add_geogrid("depths", ncFloat);
       lC_NcGrid.add_geogrid("salinity", ncFloat);
 
-      std::cout << "number of records = " << lC_NcGrid.num_recs() 
+      std::cout << "number of records = " << lC_NcGrid.num_recs()
 		<< std::endl
-		<< "number of bands = " << lC_NcGrid.num_bands() 
+		<< "number of bands = " << lC_NcGrid.num_bands()
 		<< std::endl;
 
       // add local attributes
@@ -463,9 +463,9 @@ namespace gistest {
 		  << std::endl;
       }
 
-      std::cout << "number of records = " << lC_NcGrid.num_recs() 
+      std::cout << "number of records = " << lC_NcGrid.num_recs()
 		<< std::endl;
-      std::cout << "number of bands = " << lC_NcGrid.num_bands() 
+      std::cout << "number of bands = " << lC_NcGrid.num_bands()
 		<< std::endl;
 
       // access the grid variable
@@ -514,9 +514,9 @@ namespace gistest {
       if (lC_datetime != not_a_date_time)
 	std::cout << "\tbase_date=<" << lC_datetime << ">\n";
 
-      std::cout << "\ttime unit = " << lC_NcGrid.time_unit() 
+      std::cout << "\ttime unit = " << lC_NcGrid.time_unit()
 		<< std::endl
-		<< "\tdelta_t = " << lC_NcGrid.delta_t() 
+		<< "\tdelta_t = " << lC_NcGrid.delta_t()
 		<< std::endl;
 
       std::cout << "\tdate of 2nd record = <" << lC_NcGrid.date(1) << ">\n";
@@ -588,7 +588,7 @@ namespace gistest {
 		    << lCfp_geogrid->resolution().x << ","
 		    << lCfp_geogrid->resolution().y << ")"
 		    << std::endl;
-	  
+
 	  for (int iRow = 0; iRow < lCfp_geogrid->num_rows(); iRow++)
 	    for (int iCol = 0; iCol < lCfp_geogrid->num_cols(); iCol++) {
 	      (*lCfp_geogrid2)(iRow, iCol) = (*lCfp_geogrid)(0, iRow, iCol);

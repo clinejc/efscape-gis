@@ -14,8 +14,6 @@
 #include <efscape/gis/Geogrid_impl.hh>
 
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include <stdexcept>
 #include <string>
@@ -43,8 +41,6 @@ namespace efscape {
      */
     class GeoNetCDF : public GeoDataSource
     {
-       friend class boost::serialization::access;
-
     public:
       GeoNetCDF();
       GeoNetCDF(const char* acp_filename, NcFile::FileMode ae_filemode);
@@ -154,15 +150,8 @@ namespace efscape {
 
     private:
 
-      template<class Archive>
-      void serialize(Archive & ar, const unsigned int version)
-      {
-	// parent class
-	ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(GeoDataSource);
-      }
-
       /** handle to netCDF dataset */
-      boost::scoped_ptr<NcFile> mCp_dataset;
+      std::unique_ptr<NcFile> mCp_dataset;
 
       /** dataset name (path) */
       std::string mC_name;
@@ -188,8 +177,8 @@ namespace efscape {
     };				// class GeoNetCDF<> definition
 
     // typedefs
-    typedef boost::shared_ptr<GeoNetCDF> GeoRasterNcPtr; // deprecated
-    typedef boost::shared_ptr<GeoNetCDF> GeoNetCDFPtr;
+    typedef std::shared_ptr<GeoNetCDF> GeoRasterNcPtr; // deprecated
+    typedef std::shared_ptr<GeoNetCDF> GeoNetCDFPtr;
 
     // utility function for creating a GeoNetCDF dataset from a geogrid
     GeoNetCDF* createGeoNetCDF(const char* acp_filename,

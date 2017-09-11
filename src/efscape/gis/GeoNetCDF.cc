@@ -122,7 +122,7 @@ namespace efscape {
       double ld_width = aCr_envelope.getMaxX()-aCr_envelope.getMinX();
       double ld_height = aCr_envelope.getMaxY()-aCr_envelope.getMinY();
       geos::geom::Coordinate lC_res( ld_width/((double)num_cols()),
-			      ld_height/((double)num_rows()) );      
+			      ld_height/((double)num_rows()) );
 
       double ld1_GeoTransform[6] = {
 	aCr_envelope.getMinX(),
@@ -286,7 +286,7 @@ namespace efscape {
 	break;
       }
 
-      delete lCp1_dims;
+      delete[] lCp1_dims;
 
       if (lCp_var == 0)
 	return false;
@@ -310,7 +310,7 @@ namespace efscape {
 
     /** @returns whether this dataset is properly georeferenced */
     bool GeoNetCDF::is_georeferenced() const {
-      if (mCp_dataset == 0)
+      if (mCp_dataset == nullptr)
 	return false;
 
       //  2007-07-15 note: moved georeferencing to "transverse_mercator"

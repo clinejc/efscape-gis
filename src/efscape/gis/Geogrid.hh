@@ -13,8 +13,6 @@
 #include <geos/geom/Envelope.h>
 #include <efscape/gis/Index.hh>
 #include <efscape/gis/Range.hh>
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_ptr.hpp>
 
 // forward declarations
 class GDALDataset;
@@ -27,7 +25,7 @@ namespace efscape {
     class CellIndex;
     class GeoNetCDF;
 
-    typedef boost::shared_ptr<GDALDataset> GDALDatasetPtr;
+    typedef std::shared_ptr<GDALDataset> GDALDatasetPtr;
 
     /**
      * A base interface for accessing georeferenced grid data.
@@ -78,7 +76,7 @@ namespace efscape {
       virtual size_t num_cols() const { return 0; }
       virtual size_t num_rows() const { return 0; }
       virtual unsigned int num_bands() const { return 0; }
-      
+
       virtual size_t size() const { return 0; }
       void cell_index(CellIndex* aCp_index);
 
@@ -154,8 +152,8 @@ namespace efscape {
 
       bool isa_torus() const;
 
-      const boost::shared_ptr<GDALDataset>& dataset() const;
-      bool set_dataset(const boost::shared_ptr<GDALDataset>& aCp_dataset);
+      const std::shared_ptr<GDALDataset>& dataset() const;
+      bool set_dataset(const std::shared_ptr<GDALDataset>& aCp_dataset);
 
       int write();
       int write(const char* acp_name);
@@ -164,7 +162,7 @@ namespace efscape {
     protected:
 
       /** handle to CellIndex */
-      boost::scoped_ptr<CellIndex> mCp_index;
+      std::unique_ptr<CellIndex> mCp_index;
 
     private:
 
@@ -172,12 +170,12 @@ namespace efscape {
       std::string mC_name;
 
       /** handle to GDALDataset */
-      boost::shared_ptr<GDALDataset> mCp_dataset;
+      std::shared_ptr<GDALDataset> mCp_dataset;
 
     };				// class Geogrid
 
     // typedef
-    typedef boost::shared_ptr<Geogrid> GeogridPtr;
+    typedef std::shared_ptr<Geogrid> GeogridPtr;
 
     // utility method for creating Geogrid based on data type stored in a string
     Geogrid* CreateGeogrid(const char * const acp_type);

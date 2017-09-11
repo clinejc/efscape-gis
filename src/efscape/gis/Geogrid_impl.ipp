@@ -55,7 +55,7 @@ namespace efscape {
      * @param acp_spatial_ref spatial reference as WKT
      */
     template < class Type >
-    Geogrid_impl < Type >::Geogrid_impl(const char* acp_name, 
+    Geogrid_impl < Type >::Geogrid_impl(const char* acp_name,
 					int ai_nCols,
 					int ai_nRows,
 					int ai_nBands,
@@ -137,7 +137,7 @@ namespace efscape {
       mC_spatial_ref = acp_spatial_ref;
 
       for (int iBand = 0; iBand < ai_nBands; iBand++) {
-	boost::shared_ptr< Band > lCp_band( new Band(iBand, this) );
+	std::shared_ptr< Band > lCp_band( new Band(iBand, this) );
 	mCp1_bands.push_back(lCp_band);
       }
     }
@@ -145,7 +145,7 @@ namespace efscape {
     /**
      * Builds the grid.
      *
-     * @param aCr_grid 
+     * @param aCr_grid
      */
     template < class Type >
     void Geogrid_impl < Type >::resize(const Geogrid& aCr_grid)
@@ -769,7 +769,7 @@ namespace efscape {
     template < class Type >
     std::vector<std::string>
     Geogrid_impl < Type >::Band::getCategoryNames() {
-      if (mCp_geogrid->dataset() == NULL)
+      if (mCp_geogrid->dataset() == nullptr)
 	return std::vector<std::string>();
 
       return ( getStdStrings(mCp_geogrid->dataset()->
@@ -787,7 +787,7 @@ namespace efscape {
 						  std::vector<std::string>&
 						  aC1_names)
     {
-      if (mCp_geogrid->dataset() == NULL)
+      if (mCp_geogrid->dataset() == nullptr)
 	return;
 
       mCp_geogrid->dataset()->
@@ -802,7 +802,7 @@ namespace efscape {
     template < class Type >
     GDALColorTable*
     Geogrid_impl < Type >::Band::getColorTable() {
-      if (mCp_geogrid->dataset() == NULL)
+      if (mCp_geogrid->dataset() == nullptr)
 	return 0;
 
       GDALColorTable* lCp_ColorTable =
@@ -822,7 +822,7 @@ namespace efscape {
     template < class Type >
     void
     Geogrid_impl < Type >::Band::setColorTable(GDALColorTable* aCp_ColorTable) {
-      if (mCp_geogrid->dataset() == NULL)
+      if (mCp_geogrid->dataset() == nullptr)
 	return;
 
       mCp_geogrid->dataset()->GetRasterBand(mi_band+1)

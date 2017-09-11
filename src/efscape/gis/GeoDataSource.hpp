@@ -8,7 +8,6 @@
 #define EFSCAPE_GIS_GEODATASOURCE_HPP
 
 #include <efscape/gis/Geogrid_impl.hh>
-#include <boost/serialization/nvp.hpp>
 #include <string>
 
 namespace efscape {
@@ -22,17 +21,10 @@ namespace efscape {
      * A base interface for accessing georeferenced grid dataset.
      *
      * @author Jon Cline <clinej@stanfordalumni.org>
-     * @version 0.3 created 04 Aug 2006, revised 05 Oct 2014
-     *
-     * ChangeLog:
-     *  - 2014-10-05 name changed back to GeoDataset
-     *  - 2006-11-24 name changed from GeoDataset to GeoRaster
-     *  - 2006-08-04 created class GeoDataSet
+     * @version 0.3 created 04 Aug 2006, revised 25 Aug 2017
      */
     class GeoDataSource
     {
-      friend class boost::serialization::access;
-
     public:
 
       //
@@ -363,7 +355,7 @@ namespace efscape {
 	  long ll_index = ml_index + (long)n;
 	  if ( ml_index >= mCp_dataset->num_recs() )
 	    ml_index = mCp_dataset->num_recs();
-	
+
 	  return ( Iterator(mCp_dataset, mC_name.c_str(), ll_index) );
 	}
 
@@ -452,15 +444,6 @@ namespace efscape {
 	return ( iterator(this, acp_name, num_recs() ) );
       }
 
-    private:
-
-      template<class Archive>
-      void serialize(Archive & ar, const unsigned int version)
-      {
-	// parent class
-	ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(GeoDataSource);
-      }
-
     };				// class GeoDataSource
 
   } // namespace gis
@@ -468,4 +451,3 @@ namespace efscape {
 } // namespace efscape
 
 #endif	// #ifndef EFSCAPE_GIS_GEODATASOURCE_HPP
-

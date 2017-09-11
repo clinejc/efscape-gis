@@ -211,9 +211,9 @@ namespace efscape {
      * @param eType GDAL data type
      * @returns handle to new Geogrid object
      */
-    Geogrid* CreateGeogrid(const boost::shared_ptr<GDALDataset>& aCp_dataset) {
+    Geogrid* CreateGeogrid(const std::shared_ptr<GDALDataset>& aCp_dataset) {
       Geogrid* lCp_geogrid = NULL;
-      if (aCp_dataset.get() == NULL)
+      if (aCp_dataset == nullptr)
 	return lCp_geogrid;
 
       // Two assumptions
@@ -300,7 +300,7 @@ namespace efscape {
       // grid resolution
       ld1_GeoTransform[1] = lC_resolution.x;
       ld1_GeoTransform[5] = lC_resolution.y;
-      
+
       if (lCp_dataset->SetGeoTransform(ld1_GeoTransform) == CE_Failure)
 	std::cerr << "*** GDALWrapper constructor error ***: "
 		  << "Unable to set geotransform\n";
@@ -322,7 +322,7 @@ namespace efscape {
     int readGDALDataset(GDALDataset& aCr_dataset, Geogrid* aCp_grid)
     {
       int li_status = 1;
-      
+
       if (aCp_grid == 0)
 	return li_status;
 

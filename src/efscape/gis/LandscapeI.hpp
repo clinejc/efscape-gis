@@ -10,8 +10,6 @@
 #include <efscape/gis/Geogrid_impl.hh>
 #include <gdal_priv.h>		// Geospatial Data Abstraction Library
 #include <ogrsf_frmts.h>	// Adds support for GDAL/OGR simple features
-#include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
 #include <string>
 #include <vector>
 #include <set>
@@ -25,12 +23,14 @@ namespace efscape {
     class LandscapeI;
 
     // typedefs
-    typedef boost::shared_ptr<LandscapeI> LandscapeIPtr;
-    typedef boost::shared_ptr<OGRLayer> OGRLayerPtr;
+    typedef std::shared_ptr<LandscapeI> LandscapeIPtr;
+    typedef std::shared_ptr<OGRLayer> OGRLayerPtr;
+    typedef std::shared_ptr<GDALDataset> GDALDatasetPtr;
     typedef std::set<GeogridPtr> GeogridSet;
     typedef std::map<std::string, GeogridPtr> GeogridMap;
     typedef std::set<OGRLayerPtr> OGRLayerSet;
     typedef std::map<std::string, OGRLayerPtr> OGRLayerMap;
+    typedef std::map<std::string, GDALDatasetPtr> GDALDatasetMap;
 
     /**
      * The LandscapeI class provides a single unified interface for accessing
@@ -77,21 +77,32 @@ namespace efscape {
       void getGeogrids(GeogridSet& aCCpr_geogrids);
 
       //
-      // methods for accessing layers
+      // methods for accessing feature layers
       //
+      void addDataset( std::string aC_name,
+		       const GDALDatasetPtr& aCp_dataset );
 
-      /** @returns handle to GDALDataset */
-      const boost::shared_ptr<GDALDataset>& getDataset() { return mCp_dataset; }
+      GDALDatasetPtr addDataset( std::string aC_DriverName,
+				 std::string aC_FileName,
+				 std::string aC_name );
+      
+      GDALDatasetPtr getDataset(std::string aC_name);
 
-      void setDataset( const boost::shared_ptr<GDALDataset>& aCp_dataset);
+      void addLayer( std::string aC_name,
+		     const OGRLayerPtr& aCp_layer );
 
+      OGRLayerPtr getLayer(std::string aC_name);
+      
     protected:
 
       /** map of landscape geogrid layers */
-      boost::scoped_ptr<GeogridMap> mCCCp_Geogrids;
+      std::unique_ptr<GeogridMap> mCCCp_Geogrids;
 
-      /** handle to GDALDataset (dataset with feature layers) */
-      boost::shared_ptr<GDALDataset> mCp_dataset;
+      /** map of landscape feature layers */
+      std::unique_ptr<OGRLayerMap> mCpCp_layers;
+
+      /** map of landscape feature datasets */
+      std::unique_ptr<GDALDatasetMap> mCpCp_datasets;
 
     };				// class LandscapeI definition
 

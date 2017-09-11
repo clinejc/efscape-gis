@@ -15,6 +15,10 @@ namespace efscape {
     /** constructor */
     LandscapeI::LandscapeI() {
       mCCCp_Geogrids.reset(new GeogridMap);
+      mCpCp_datasets.reset(new GDALDatasetMap);
+
+      // Register all format drivers
+      GDALAllRegister();
     }
 
     /** destructor */
@@ -36,7 +40,7 @@ namespace efscape {
 
       (*mCCCp_Geogrids)[aCp_grid->name()] = lCp_grid;
       // mCp1_geogrids.push_back(lCp_grid);
-      
+
       return aCp_grid;
     }
 
@@ -222,12 +226,96 @@ namespace efscape {
     /**
      * Add a GDALDataset.
      *
+     * @param aC_name name of the dataset
      * @param aCp_dataset smart handle to dataset
      */
-    void LandscapeI::setDataset(const boost::shared_ptr<GDALDataset>& aCp_dataset)
+    void LandscapeI::addDataset( std::string aC_name,
+				 const GDALDatasetPtr& aCp_dataset )
     {
-      mCp_dataset = aCp_dataset;
+      (*mCpCp_datasets)[aC_name] = aCp_dataset;
     }
+
+    /**
+     * Add a GDALDataset.
+     *
+     * @param aC_name name of the dataset
+     * @param aCp_dataset smart handle to dataset
+     */
+    GDALDatasetPtr LandscapeI::addDataset( std::string aC_DriverName,
+					   std::string aC_FileName,
+					   std::string aC_name )
+    {
+      // get driver
+      GDALDriver* poDriver =
+	GetGDALDriverManager()->GetDriverByName( aC_DriverName.c_str() );
+
+      if( poDriver == NULL ) {
+	std::cerr << aC_DriverName.c_str()
+		  << " driver not available.\n";
+	return nullptr;
+      }
+
+      // create dataset
+      GDALDataset* poDS =
+	poDriver->Create( aC_FileName.c_str(), 0, 0, 0, GDT_Unknown, NULL );
+      if ( poDS == NULL ) {
+	std::cerr << "Creation of output file failed.\n";
+        return nullptr;
+      }
+
+      // add shared pointer to map
+      std::shared_ptr<GDALDataset> lCp_dataset(poDS);
+      
+      (*mCpCp_datasets)[aC_name] = lCp_dataset;
+
+      return lCp_dataset;
+    }
+
+    /**
+     * Returns dataset <aC_name> if it is present.
+     *
+     * @param aC_name name of the dataset
+     */
+    GDALDatasetPtr LandscapeI::getDataset(std::string aC_name)
+    {
+      GDALDatasetMap::iterator iDataset = mCpCp_datasets->find(aC_name);
+
+      if (iDataset == mCpCp_datasets->end()) {
+      	return nullptr;
+      }
+
+      return iDataset->second;
+    }
+    
+    /**
+     * Add an OGRLayer.
+     *
+     * @param aC_name name of the layer
+     * @param aCp_dataset smart handle to layer
+     */
+    void LandscapeI::addLayer( std::string aC_name,
+			       const OGRLayerPtr& aCp_layer )
+    {
+      (*mCpCp_layers)[aC_name] = aCp_layer;
+    }
+
+    /**
+     * Returns layer <aC_name> if it is present.
+     *
+     * @param aC_name name of the layer
+     */
+    OGRLayerPtr LandscapeI::getLayer(std::string aC_name)
+    {
+      OGRLayerMap::iterator iLayer = mCpCp_layers->find(aC_name);
+
+      if (iLayer == mCpCp_layers->end()) {
+      	return nullptr;
+      }
+
+      return iLayer->second;
+    }
+
+
 
   } // namespace gis
 

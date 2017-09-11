@@ -62,7 +62,7 @@ namespace efscape {
     }
 
     /** returns a handle to the associated GDALDataset */
-    const boost::shared_ptr<GDALDataset>& Geogrid::dataset() const {
+    const std::shared_ptr<GDALDataset>& Geogrid::dataset() const {
       return mCp_dataset;
     }
 
@@ -72,7 +72,7 @@ namespace efscape {
      * @param aCp_dataset smart handle to a GDALdataset
      * @returns whether successful
      */
-    bool Geogrid::set_dataset(const boost::shared_ptr<GDALDataset>&
+    bool Geogrid::set_dataset(const std::shared_ptr<GDALDataset>&
 			      aCp_dataset)
     {
       if (aCp_dataset.get() == NULL)
@@ -248,7 +248,7 @@ namespace efscape {
       }
 
       return lC_envelope;
-	
+
     } // end of Geogrid::envelope(size_t,size_t)
 
     /**
@@ -279,7 +279,7 @@ namespace efscape {
       double ld_maxY = ld_OriginY + ( aCr_range.min().row() * lC_res.y );
       double ld_maxX = ld_OriginX + ( aCr_range.max().col() * lC_res.x );
       double ld_minY = ld_OriginY + ( aCr_range.max().row() * lC_res.y );
-      
+
 
       return ( geos::geom::Envelope(ld_minX, ld_maxX, ld_minY, ld_maxY) );
 
@@ -427,7 +427,7 @@ namespace efscape {
 		  << std::endl;
       else
 	std::cout << (int) (dfComplete*100) << "% complete.\n";
-     
+
       return TRUE;
     }
 

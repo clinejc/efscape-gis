@@ -11,7 +11,6 @@
 
 #include <gdal_priv.h>		// Geospatial Data Abstraction Library
 #include <boost/multi_array.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include <vector>
 #include <string>
@@ -229,7 +228,7 @@ namespace efscape {
     protected:
 
       /** grid data */
-      boost::scoped_ptr<array_type> mT3p_data;
+      std::unique_ptr<array_type> mT3p_data;
 
       /** grid extent */
       geos::geom::Envelope mC_envelope;
@@ -241,7 +240,7 @@ namespace efscape {
       std::vector<std::string> mC1_band_names;
 
       /** vector of raster bands */
-      std::vector< boost::shared_ptr< Band > > mCp1_bands;
+      std::vector< std::shared_ptr< Band > > mCp1_bands;
 
     };				// class Geogrid_impl< Type >
 

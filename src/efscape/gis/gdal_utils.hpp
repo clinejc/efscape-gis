@@ -9,7 +9,6 @@
 
 #include <gdal_priv.h>		// Geospatial Data Abstraction Library
 
-#include <boost/shared_ptr.hpp>
 #include <string>
 #include <vector>
 
@@ -41,7 +40,7 @@ namespace efscape {
 			   int ai_nBands,
 			   const geos::geom::Envelope& aCr_envelope,
 			   const char* acp_projection);
-    Geogrid* CreateGeogrid(const boost::shared_ptr<GDALDataset>& aCr_dataset);
+    Geogrid* CreateGeogrid(const std::shared_ptr<GDALDataset>& aCr_dataset);
 
     GDALDataset* createGDALDataset(const char* acp_name,
 				   const char* acp_format,
@@ -59,7 +58,7 @@ namespace efscape {
     // utility functions for getting and setting  metadata
     //----------------------------------------------------
     std::vector<std::string> getMetadataNames(GDALMajorObject* aCp_GDALObject);
-    
+
   } // namespace gis
 }   // namespace efscape
 
