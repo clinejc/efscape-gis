@@ -6,13 +6,10 @@ efgistest_SOURCES = TestCode.cc main.cc
 testcode_sources = $(efgistest_SOURCES) TestCode.hh
 
 efgistest_LDADD = $(top_srcdir)/src/efscape/gis/libefscape-gis.la
-#efgistest_LDADD += $(GDAL_LIBS)
-#efgistest_LDADD += $(GEOS_CCLIBS)
-#efgistest_LDADD += $(NETCDF_CXX_LIBS)
 
 AM_CPPFLAGS = -I$(top_srcdir)/src
+AM_CPPFLAGS += $(DEPS_CFLAGS)
 AM_CPPFLAGS += $(BOOST_CPPFLAGS)
-AM_CPPFLAGS += $(GDAL_CFLAGS)
 AM_CPPFLAGS += $(GEOS_CFLAGS)
 AM_CPPFLAGS += $(NETCDF_CXX_CFLAGS)
 

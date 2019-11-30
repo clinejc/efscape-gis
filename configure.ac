@@ -22,6 +22,7 @@ dnl -----------------------------------------------
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
+CXXFLAGS="-std=c++11 -fPIC"
 AC_LIBTOOL_DLOPEN
 AM_PROG_LIBTOOL
 AM_SANITY_CHECK
@@ -31,6 +32,7 @@ dnl Checks for libraries
 dnl -----------------------------------------------
 
 PKG_CHECK_MODULES(DEPS,
+	gdal > 2.4
 	liblog4cxx > 0.1)
 
 BOOST_REQUIRE([1.60])
@@ -44,45 +46,6 @@ BOOST_SYSTEM()
 BOOST_PROGRAM_OPTIONS()
 BOOST_DATE_TIME()
 BOOST_REGEX()
-
-dnl ---------------------------------------------------------------------------
-dnl Check for gdal (borrowed from grass 6.X.X.)
-dnl ---------------------------------------------------------------------------
-AC_PATH_PROG(GDAL_CONFIG, gdal-config, no)
-if test "$GDAL_CONFIG" = "no" ; then
-  AC_MSG_ERROR([*** couldn't find gdal-config])
-fi
-
-GDAL_LIBS=
-GDAL_CFLAGS=
-USE_GDAL=
-USE_OGR=
-
-if test "$GDAL_CONFIG" != "" ; then
-  GDAL_LIBS=`"$GDAL_CONFIG" --libs`
-  GDAL_DEP_LIBS=`"$GDAL_CONFIG" --dep-libs`
-  GDAL_CFLAGS=`"$GDAL_CONFIG" --cflags`
-  USE_GDAL=1
-  if test `"$GDAL_CONFIG" --ogr-enabled` = "yes" ; then
-    AC_DEFINE(HAVE_OGR)
-    USE_OGR=1
-  fi
-fi
-
-ac_save_libs="$LIBS"
-LIBS="$GDAL_LIBS $LIBS"
-AC_CHECK_FUNC(GDALOpen,[],[
-LIBS="$GDAL_DEP_LIBS $LIBS"
-AC_CHECK_FUNC(GDALOpen,[GDAL_LIBS="$GDAL_LIBS $GDAL_DEP_LIBS"],[
-    AC_MSG_ERROR([*** Unable to locate GDAL library.])
-])
-])
-LIBS=$ac_save_libs
-
-AC_SUBST(GDAL_LIBS)
-AC_SUBST(GDAL_CFLAGS)
-AC_SUBST(USE_GDAL)
-AC_SUBST(USE_OGR)
 
 dnl ---------------------------------------------------------------------------
 dnl Set geos library options
@@ -106,8 +69,6 @@ NETCDF_CXX_CFLAGS=`nc-config --cflags`
 
 AC_SUBST(NETCDF_CXX_LIBS)
 AC_SUBST(NETCDF_CXX_CFLAGS)
-
-# Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL

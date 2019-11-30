@@ -34,26 +34,26 @@ lib_LTLIBRARIES = libefscape-gis.la
 
 AM_CPPFLAGS = -I$(top_srcdir)/src
 AM_CPPFLAGS += -I$(top_srcdir)/src/efscape/utils
+AM_CPPFLAGS += $(DEPS_CFLAGS)
 AM_CPPFLAGS += $(BOOST_CPPFLAGS)
-AM_CPPFLAGS += $(GDAL_CFLAGS)
 AM_CPPFLAGS += $(GEOS_CFLAGS)
 AM_CPPFLAGS += $(NETCDF_CXX_CFLAGS)
 
-LIBS = $(GDAL_LIBS)
-LIBS += $(GEOS_CCLIBS)
+LIBS = $(GEOS_CCLIBS)
 LIBS += $(NETCDF_CXX_LIBS)
 LIBS += $(BOOST_DATE_TIME_LIB)
 LIBS += $(BOOST_FILESYSTEM_LIB)
 LIBS += $(BOOST_SYSTEM_LIB)
+LIBS += $(DEPS_LIBS)
 
 libefscape_gis_la_SOURCES= $(hh_sources) $(cc_sources)
 #libefscape_gis_la_LDFLAGS= -release $(GENERIC_RELEASE)
-libefscape_gis_la_LIBADD = $(GDAL_LIBS)
-libefscape_gis_la_LIBADD += $(GEOS_CCLIBS)
+libefscape_gis_la_LIBADD = $(GEOS_CCLIBS)
 libefscape_gis_la_LIBADD += $(NETCDF_CXX_LIBS)
 libefscape_gis_la_LIBADD += $(BOOST_DATE_TIME_LIB)
 libefscape_gis_la_LIBADD += $(BOOST_FILESYSTEM_LIB)
 libefscape_gis_la_LIBADD += $(BOOST_SYSTEM_LIB)
+libefscape_gis_la_LIBADD += $(DEPS_LIBS)
 
 copyright:
 	cp $(top_srcdir)/Copyright.doc $(top_srcdir)/Makefile.cr $(top_srcdir)/Sed.cr .

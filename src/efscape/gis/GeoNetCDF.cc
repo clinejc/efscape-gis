@@ -59,7 +59,7 @@ namespace efscape {
 			 const geos::geom::Envelope& aCr_envelope,
 			 const char* acp_projection,
 			 bool ab_isa_timeseries) :
-      mCp_dataset(0),
+      mCp_dataset(nullptr),
       mC_name(acp_name),
       mb_is_mutable(true),
       ml_index(0),
@@ -68,8 +68,8 @@ namespace efscape {
       mCp_dataset.reset(new NcFile(acp_name, NcFile::Replace));
 
       // add dimensions and coordinates
-      NcDim* lCp_dim = NULL;
-      NcVar* lCp_var = NULL;
+      NcDim* lCp_dim = nullptr;
+      NcVar* lCp_var = nullptr;
 
       // time coordinate (optional)
       if (ab_isa_timeseries) {
